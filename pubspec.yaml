@@ -24,7 +24,7 @@ dependencies:
 
   #  timelines: ^0.1.0
 
-  font_awesome_flutter: ^10.5.0
+  font_awesome_flutter: ^10.8.0
   flutter_avif: ^3.0.0
   velocity_x: ^4.3.1
   timelines: ^0.1.0
