@@ -1,0 +1,610 @@
+
+ // Timeline.tileBuilder(
+          //   shrinkWrap: true,
+          //   scrollDirection: Axis.vertical,
+          //   builder: TimelineTileBuilder.fromStyle(
+          //     itemCount: 4,
+          //     contentsAlign: ContentsAlign.alternating,
+          //     contentsBuilder: (context, index) {
+          //       return Card(
+          //         child: Container(
+          //           padding: EdgeInsets.all(12.0),
+          //           child: Column(
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             children: [
+          //               Text("20 March 2019"),
+          //               Text("Passed 10th"),
+          //               Text("With 70% "),
+          //             ],
+          //           ),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
+
+import 'package:flutter/material.dart';
+import 'package:timelines/timelines.dart';
+
+class Education extends StatefulWidget {
+  const Education({super.key});
+
+  @override
+  State<Education> createState() => _EducationState();
+}
+
+class _EducationState extends State<Education> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width < 900
+          ? MediaQuery.of(context).size.width * 0.9
+          : MediaQuery.of(context).size.width * 0.3,
+      decoration: BoxDecoration(color: Colors.white),
+      child: Column(
+        children: [
+          Text(
+            "Education",
+            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
+          ),
+
+          Timeline.tileBuilder(
+            theme: TimelineThemeData(
+              connectorTheme: ConnectorThemeData(
+                thickness: 2.0,
+                color: Colors.blue,
+              ),
+              indicatorTheme: IndicatorThemeData(
+                color: Colors.blue,
+                size: 24.0,
+              ),
+            ),
+            builder: TimelineTileBuilder.connected(
+              connectionDirection: ConnectionDirection.before,
+              itemCount: 3,
+              indicatorBuilder: (context, index) => DotIndicator(),
+              connectorBuilder: (context, index, connectorType) =>
+                  SolidLineConnector(),
+              contentsBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    '20 March 2014\nPassed 10th\n10th grade from this particular and with 90% of marks were secured by me',
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+// code of navigate to perticular widget
+
+import 'package:flutter/material.dart';
+
+import 'components/about.dart';
+import 'components/education.dart';
+
+class Portfolio extends StatefulWidget {
+  const Portfolio({super.key});
+
+  @override
+  State<Portfolio> createState() => _PortfolioState();
+}
+
+class _PortfolioState extends State<Portfolio> {
+  List<Widget> navItems = [
+    Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        onPressed: () {},
+        child: Text("Education", style: TextStyle(color: Colors.greenAccent)),
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        onPressed: () {},
+        child: Text("Skills", style: TextStyle(color: Colors.greenAccent)),
+      ),
+    ),
+  ];
+
+  bool isMobile = false;
+  @override
+  // Widget build(BuildContext context) {
+  //   final screenWidth = MediaQuery.of(context).size.width;
+  //   isMobile = screenWidth < 900;
+  //
+  //   return Scaffold(
+  //     backgroundColor: const Color(0xFFFFB6C1),
+  //     appBar: AppBar(
+  //       title: const Text("The Developer"),
+  //       actions: isMobile ? null : navItems,
+  //     ),
+  //     drawer: isMobile ? Drawer(child: ListView(children: navItems)) : null,
+  //
+  //     body: SingleChildScrollView(
+  //       child: Center(
+  //         child: isMobile
+  //             ? Column(
+  //                 children: const [
+  //                   SizedBox(height: 20),
+  //                   About(),
+  //                   SizedBox(height: 20),
+  //                   Education(),
+  //                 ],
+  //               )
+  //             : Padding(
+  //                 padding: const EdgeInsets.only(top: 40),
+  //                 child: Row(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: const [
+  //                     // LEFT - ABOUT
+  //                     Padding(
+  //                       padding: EdgeInsets.only(
+  //                         right: 20,
+  //                       ), // horizontal spacing only
+  //                       child: About(),
+  //                     ),
+  //                     // RIGHT - EDUCATION
+  //                     Education(),
+  //                   ],
+  //                 ),
+  //               ),
+  //       ),
+  //     ),
+  //   );
+  // }
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    isMobile = screenWidth < 900;
+
+    List<Widget> navItems = [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Education()),
+            );
+          },
+          child: const Text(
+            "Education",
+            style: TextStyle(color: Colors.greenAccent),
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          onPressed: () {
+            // Add other navigation or action here
+          },
+          child: const Text(
+            "Skills",
+            style: TextStyle(color: Colors.greenAccent),
+          ),
+        ),
+      ),
+    ];
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFFFB6C1),
+      appBar: AppBar(
+        title: const Text("The Developer"),
+        actions: isMobile ? null : navItems,
+      ),
+      drawer: isMobile ? Drawer(child: ListView(children: navItems)) : null,
+      body: SingleChildScrollView(
+        child: Center(
+          child: isMobile
+              ? Column(
+                  children: const [
+                    SizedBox(height: 20),
+                    About(),
+                    SizedBox(height: 20),
+                    Education(),
+                  ],
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: About(),
+                      ),
+                      Education(),
+                    ],
+                  ),
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+// my about page ui for one by one data
+
+
+  Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Chip(
+                      label: Text("Flutter Developer"),
+                      labelStyle: TextStyle(color: Colors.white),
+                      backgroundColor: Colors.pinkAccent,
+                      padding: EdgeInsets.all(8.0),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Chip(
+                      label: Text("App Developer"),
+                      labelStyle: TextStyle(color: Colors.white),
+                      backgroundColor: Colors.pinkAccent,
+                      padding: EdgeInsets.all(8.0),
+                    ),
+                  ),
+                ],
+              ),
+
+
+
+              ## card lift ui before code
+
+              // // import 'package:flutter/material.dart';
+              // // import 'package:portfolio_app/utils/hover_button.dart';
+              // // import 'package:url_launcher/url_launcher.dart';
+              // //
+              // // class ProjectSection extends StatelessWidget {
+              // //   const ProjectSection({super.key});
+              // //
+              // //   final List<Map<String, dynamic>> projects = const [
+              // //     {
+              // //       "title": "Flutter Quiz App",
+              // //       "description":
+              // //           "A quiz app with Firebase backend, scoring system, and login.",
+              // //       "tech": ["Flutter", "Firebase", "Dart"],
+              // //       "github": "https://github.com/your-username/quiz-app",
+              // //     },
+              // //     {
+              // //       "title": "Portfolio Website",
+              // //       "description":
+              // //           "My personal portfolio made using Flutter Web with responsive layout.",
+              // //       "tech": ["Flutter", "Responsive UI", "Dart"],
+              // //       "github": "https://github.com/your-username/portfolio",
+              // //     },
+              // //     {
+              // //       "title": "BMI App",
+              // //       "description": "I have build a BMI app to measure body info. ",
+              // //       "tech": ["Flutter", "Firebase Authentication", "Dart"],
+              // //       "github": "https://github.com/your-username/BMI APP",
+              // //     },
+              // //   ];
+              // //
+              // //   Future<void> _launchURL(String url) async {
+              // //     final uri = Uri.parse(url);
+              // //     if (await canLaunchUrl(uri)) {
+              // //       await launchUrl(uri, mode: LaunchMode.externalApplication);
+              // //     } else {
+              // //       throw 'Could not launch $url';
+              // //     }
+              // //   }
+              // //
+              // //   @override
+              // //   Widget build(BuildContext context) {
+              // //     return Column(
+              // //       crossAxisAlignment: CrossAxisAlignment.center,
+              // //       mainAxisAlignment: MainAxisAlignment.center,
+              // //       children: [
+              // //         Container(
+              // //           padding: EdgeInsets.symmetric(vertical: 20.0),
+              // //           alignment: Alignment.center,
+              // //           child: Text(
+              // //             "My Projects",
+              // //             style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
+              // //           ),
+              // //         ),
+              // //         // const SizedBox(height: 10),
+              // //         Wrap(
+              // //           spacing: 16,
+              // //           runSpacing: 16,
+              // //
+              // //           children: projects.map((project) {
+              // //             return Container(
+              // //               alignment: Alignment.center,
+              // //               width: 360,
+              // //               padding: const EdgeInsets.all(16),
+              // //               decoration: BoxDecoration(
+              // //                 color: Colors.white,
+              // //                 borderRadius: BorderRadius.circular(12),
+              // //                 // boxShadow: [
+              // //                 //   BoxShadow(
+              // //                 //     color: Colors.grey.shade200,
+              // //                 //     blurRadius: 8,
+              // //                 //     spreadRadius: 2,
+              // //                 //   ),
+              // //                 // ],
+              // //               ),
+              // //               child: Column(
+              // //                 crossAxisAlignment: CrossAxisAlignment.start,
+              // //                 children: [
+              // //                   Text(
+              // //                     project["title"],
+              // //                     style: const TextStyle(
+              // //                       fontSize: 18,
+              // //                       fontWeight: FontWeight.bold,
+              // //                     ),
+              // //                   ),
+              // //                   const SizedBox(height: 8),
+              // //                   Text(project["description"]),
+              // //                   const SizedBox(height: 12),
+              // //                   Wrap(
+              // //                     spacing: 8,
+              // //                     children: (project["tech"] as List<String>).map((tech) {
+              // //                       return Chip(
+              // //                         label: Text(tech),
+              // //                         backgroundColor: Colors.pinkAccent,
+              // //                         labelStyle: const TextStyle(color: Colors.white),
+              // //                       );
+              // //                     }).toList(),
+              // //                   ),
+              // //                   const SizedBox(height: 12),
+              // //
+              // //                   // ElevatedButton.icon(
+              // //                   //   onPressed: () => _launchURL(project["github"]),
+              // //                   //   icon: const Icon(Icons.link),
+              // //                   //   label: const Text("GitHub Link"),
+              // //                   //   style: ElevatedButton.styleFrom(
+              // //                   //     backgroundColor: Colors.black,
+              // //                   //     foregroundColor: Colors.white,
+              // //                   //     shape: RoundedRectangleBorder(
+              // //                   //       borderRadius: BorderRadius.circular(12.0),
+              // //                   //     ),
+              // //                   //   ),
+              // //                   // ),
+              // //                   HoverButton(url: (project["github"])),
+              // //                 ],
+              // //               ),
+              // //             );
+              // //           }).toList(),
+              // //         ),
+              // //       ],
+              // //     );
+              // //   }
+              // // }
+              //
+              // import 'package:flutter/material.dart';
+              // import 'package:portfolio_app/utils/hover_button.dart';
+              // import 'package:url_launcher/url_launcher.dart';
+              //
+              // class ProjectSection extends StatelessWidget {
+              //   const ProjectSection({super.key});
+              //
+              //   final List<Map<String, dynamic>> projects = const [
+              //     {
+              //       "title": "Flutter Quiz App",
+              //       "description":
+              //           "A quiz app with Firebase backend, scoring system, and login.",
+              //       "tech": ["Flutter", "Firebase", "Dart"],
+              //       "github": "https://github.com/your-username/quiz-app",
+              //     },
+              //     {
+              //       "title": "Portfolio Website",
+              //       "description":
+              //           "My personal portfolio made using Flutter Web with responsive layout.",
+              //       "tech": ["Flutter", "Responsive UI", "Dart"],
+              //       "github": "https://github.com/your-username/portfolio",
+              //     },
+              //     {
+              //       "title": "BMI App",
+              //       "description": "I have build a BMI app to measure body info.",
+              //       "tech": ["Flutter", "Firebase Authentication", "Dart"],
+              //       "github": "https://github.com/your-username/BMI APP",
+              //     },
+              //   ];
+              //
+              //   Future<void> _launchURL(String url) async {
+              //     final uri = Uri.parse(url);
+              //     if (await canLaunchUrl(uri)) {
+              //       await launchUrl(uri, mode: LaunchMode.externalApplication);
+              //     } else {
+              //       throw 'Could not launch $url';
+              //     }
+              //   }
+              //
+              //   @override
+              //   Widget build(BuildContext context) {
+              //     return Padding(
+              //       padding: const EdgeInsets.symmetric(
+              //         horizontal: 16.0,
+              //       ), // 👈 Add horizontal padding
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.center,
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           Container(
+              //             padding: const EdgeInsets.symmetric(vertical: 25.0),
+              //             alignment: Alignment.center,
+              //             child: const Text(
+              //               "My Projects",
+              //               style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
+              //             ),
+              //           ),
+              //           Wrap(
+              //             spacing: 16,
+              //             runSpacing: 16,
+              //             alignment: WrapAlignment.center,
+              //             children: projects.map((project) {
+              //               return Container(
+              //                 alignment: Alignment.center,
+              //                 width: 360,
+              //                 padding: const EdgeInsets.all(16),
+              //                 decoration: BoxDecoration(
+              //                   color: Colors.white,
+              //                   borderRadius: BorderRadius.circular(12),
+              //                 ),
+              //                 child: Column(
+              //                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                   children: [
+              //                     Text(
+              //                       project["title"],
+              //                       style: const TextStyle(
+              //                         fontSize: 18,
+              //                         fontWeight: FontWeight.bold,
+              //                       ),
+              //                     ),
+              //                     const SizedBox(height: 8),
+              //                     Text(project["description"]),
+              //                     const SizedBox(height: 12),
+              //                     Wrap(
+              //                       spacing: 8,
+              //                       children: (project["tech"] as List<String>).map((tech) {
+              //                         return Chip(
+              //                           label: Text(tech),
+              //                           backgroundColor: Colors.pinkAccent,
+              //                           labelStyle: const TextStyle(color: Colors.white),
+              //                         );
+              //                       }).toList(),
+              //                     ),
+              //                     const SizedBox(height: 12),
+              //                     HoverButton(url: (project["github"])),
+              //                   ],
+              //                 ),
+              //               );
+              //             }).toList(),
+              //           ),
+              //         ],
+              //       ),
+              //     );
+              //   }
+              // }
+              //
+              // import 'package:flutter/material.dart';
+              // import 'package:portfolio_app/utils/hover_button.dart';
+              //
+              //
+              // class ProjectSection extends StatelessWidget {
+              //   const ProjectSection({super.key});
+              //
+              //   final List<Map<String, dynamic>> projects = const [
+              //     {
+              //       "title": "Flutter Quiz App",
+              //       "description":
+              //           "A quiz app with Firebase backend, scoring system, and login.",
+              //       "tech": ["Flutter", "Firebase", "Dart"],
+              //       "github": "https://github.com/your-username/quiz-app",
+              //     },
+              //     {
+              //       "title": "Portfolio Website",
+              //       "description":
+              //           "My personal portfolio made using Flutter Web with responsive layout.",
+              //       "tech": ["Flutter", "Responsive UI", "Dart"],
+              //       "github": "https://github.com/your-username/portfolio",
+              //     },
+              //     {
+              //       "title": "BMI App",
+              //       "description": "I have built a BMI app to measure body info.",
+              //       "tech": ["Flutter", "Firebase Authentication", "Dart"],
+              //       "github": "https://github.com/your-username/BMI_APP",
+              //     },
+              //   ];
+              //
+              //
+              //   @override
+              //   Widget build(BuildContext context) {
+              //     return Padding(
+              //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //       child: Column(
+              //         children: [
+              //           const Padding(
+              //             padding: EdgeInsets.symmetric(vertical: 25.0),
+              //             child: Text(
+              //               "My Projects",
+              //               style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
+              //             ),
+              //           ),
+              //           Wrap(
+              //             spacing: 16,
+              //             runSpacing: 16,
+              //             alignment: WrapAlignment.center,
+              //             children: projects.map((project) {
+              //               return Container(
+              //                 width: 360,
+              //                 height: 245,
+              //                 padding: const EdgeInsets.all(16),
+              //                 decoration: BoxDecoration(
+              //                   color: Colors.white,
+              //                   borderRadius: BorderRadius.circular(12),
+              //                   // boxShadow: [
+              //                   //   // BoxShadow(
+              //                   //   //   color: Colors.grey.shade200,
+              //                   //   //   blurRadius: 6,
+              //                   //   //   spreadRadius: 2,
+              //                   //   // ),
+              //                   // ],
+              //                 ),
+              //                 child: Column(
+              //                   mainAxisAlignment:
+              //                       MainAxisAlignment.spaceBetween,
+              //                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                   children: [
+              //                     Column(
+              //                       crossAxisAlignment: CrossAxisAlignment.start,
+              //                       children: [
+              //                         Text(
+              //                           project["title"],
+              //                           style: const TextStyle(
+              //                             fontSize: 18,
+              //                             fontWeight: FontWeight.bold,
+              //                           ),
+              //                         ),
+              //                         const SizedBox(height: 5),
+              //                         Text(
+              //                           project["description"],
+              //                           maxLines: 2,
+              //                           overflow: TextOverflow.ellipsis,
+              //                         ),
+              //                         const SizedBox(height: 5),
+              //
+              //                         Wrap(
+              //                           spacing: 8,
+              //                           children: (project["tech"] as List<String>).map((
+              //                             tech,
+              //                           ) {
+              //                             return Chip(
+              //                               label: Text(tech),
+              //                               backgroundColor: Colors.pinkAccent,
+              //                               labelStyle: const TextStyle(color: Colors.white),
+              //                             );
+              //                           }).toList(),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                     HoverButton(url: project["github"]),
+              //                   ],
+              //                 ),
+              //               );
+              //             }).toList(),
+              //           ),
+              //         ],
+              //       ),
+              //     );
+              //   }
+              // }
